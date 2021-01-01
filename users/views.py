@@ -16,9 +16,12 @@ def users(request):
 def login(request):
     isLogged = 'False'
     if request.method == 'POST':
-        print('---', request.method)
         result = request.body.decode("utf-8")
-        # login = json.loads(result).get('login')
-        # print('=====', login)
+        login = json.loads(result).get('login')
+        password = json.loads(result).get('password')
+
+        users = User.objects.filter(login=login, password=password) 
+        if len(users) == 1:
+            isLogged = 'True'
 
     return JsonResponse({'isLogged': isLogged})
