@@ -7,7 +7,6 @@ import json
 from .models import User
 
 def users(request):
-    print(12333)
     users = User.objects.all()   
     users_serialized = serializers.serialize('json', users)
     return JsonResponse(users_serialized, safe=False)   
