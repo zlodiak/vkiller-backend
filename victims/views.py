@@ -23,3 +23,19 @@ def victims(request):
 #         # victims = Victim.objects.filter(id_user=user_id) 
 
 #     return JsonResponse({'isLogged': isLogged})
+
+
+@csrf_exempt
+def victim(request):
+    if request.method == 'POST':
+        result = request.body.decode("utf-8")
+        form_data = json.loads(result).get('formData')
+        pk = json.loads(result).get('pk')
+
+        Victim.objects.filter(pk=pk).update(firstname=form_data['firstname'], \
+        lastname=form_data['lastname'], \
+        gender=form_data['gender'], \
+        is_complete=form_data['is_complete'], \
+         address=form_data['address'])
+
+    return JsonResponse({'response_code': 200})
