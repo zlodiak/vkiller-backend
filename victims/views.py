@@ -39,3 +39,20 @@ def victim(request):
          address=form_data['address'])
 
     return JsonResponse({'response_code': 200})
+
+
+@csrf_exempt
+def victim_toggle_status(request):
+    if request.method == 'POST':
+        result = request.body.decode("utf-8")
+        form_data = json.loads(result).get('formData')
+        pk = json.loads(result).get('pk')
+
+        set = Victim.objects.filter(pk=pk).values('is_complete')
+
+        if set[0]['is_complete'] == 1:
+            Victim.objects.filter(pk=pk).update(is_complete=0)
+        else:
+            Victim.objects.filter(pk=pk).update(is_complete=1)
+
+    return JsonResponse({'response_code': 200})
